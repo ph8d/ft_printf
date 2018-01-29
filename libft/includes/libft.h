@@ -79,7 +79,7 @@ char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strtrim(char const *s);
 char			**ft_strsplit(char const *s, char c);
 char			*ft_itoa(int n);
-char			*ft_itoa_base(size_t value, size_t base);
+char			*ft_itoa_base(size_t value, size_t base, int is_negative);
 void			ft_putchar(char c);
 int				ft_uchar(unsigned int c);
 void			ft_putstr(char const *s);

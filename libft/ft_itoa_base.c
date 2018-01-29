@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/20 12:38:52 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/01/21 16:18:32 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/01/29 12:38:23 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static	void	get_result(size_t value, size_t base, char *buf, char **result)
 	(*result)++;
 }
 
-char			*ft_itoa_base(size_t value, size_t base)
+char			*ft_itoa_base(size_t value, size_t base, int is_negative)
 {
 	char *buf;
 	char *result;
@@ -28,9 +28,14 @@ char			*ft_itoa_base(size_t value, size_t base)
 
 	if (base < 2 || base > 16)
 		return (NULL);
-	buf = "0123456789ABCDEF";
-	result = ft_strnew(20);
+	buf = "0123456789abcdef";
+	result = ft_strnew(21);
 	result_tmp = result;
+	if (is_negative == 1)
+	{
+		result[0] = '-';
+		result_tmp++;
+	}
 	get_result(value, base, buf, &result_tmp);
 	return (result);
 }
