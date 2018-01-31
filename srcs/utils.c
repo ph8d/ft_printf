@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 11:42:23 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/01/29 15:13:22 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/01/31 17:12:36 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,19 @@ int		is_specifier(char c)
 	return (0);
 }
 
+size_t	get_base_value(t_specs specs)
+{
+	size_t base;
+
+	if (specs.specifier == 'o' || specs.specifier == 'O')
+		base = 8;
+	else if (specs.specifier == 'h' || specs.specifier == 'H')
+		base = 16;
+	else
+		base = 10;
+	return (base);
+}
+
 int		cut_digit_from_string(char **str)
 {
 	int		result;
@@ -64,5 +77,24 @@ int		cut_digit_from_string(char **str)
 		free(digit);
 		(*str) += digit_length - 1;
 	}
+	return (result);
+}
+
+ssize_t get_correct_data_type(va_list *arg_list, t_specs specs)
+{
+	ssize_t result;
+
+	if (specs.size_modifier == h)
+		result = va_arg(*arg_list, short int);
+	else if (specs.size_modifier == l)
+		result = va_arg(*arg_list, long int);
+	else if (specs.size_modifier == ll)
+		result = va_arg(*arg_list, long long int);
+	else if (specs.size_modifier == j)
+		result = va_arg(*arg_list, intmax_t);
+	else if (specs.size_modifier == z)
+		result = va_arg(*arg_list, ssize_t);
+	else
+		result = va_arg(*arg_list, int);
 	return (result);
 }

@@ -27,6 +27,6 @@ int		handle_pointer(t_specs specs, va_list *arg_list)
 		write(1, &pointer_address[i++], 1);
 	free(pointer_address);
 	if (specs.left_justify == 1)
-		handle_min_field_width(specs, pointer_address, &str_len);
+		handle_field_width(specs, pointer_address, &str_len);
 	return ((int)str_len);
 }

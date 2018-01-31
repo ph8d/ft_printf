@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 17:46:54 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/01/29 14:48:16 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/01/31 17:02:27 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	handle_precision(t_specs specs)
 	}
 }
 
-void	handle_min_field_width(t_specs specs, char *str, size_t *str_len)
+void	handle_field_width(t_specs specs, char *str, size_t *str_len)
 {
 	if (specs.min_field_width > 0)
 	{
@@ -33,7 +33,7 @@ void	handle_min_field_width(t_specs specs, char *str, size_t *str_len)
 	}
 }
 
-void	handle_prefixes(t_specs *specs, char *str, size_t *str_len)
+void	handle_prefixes(t_specs *specs, char *str)
 {
 	if (is_decimal(specs->specifier) == 1)
 	{
@@ -43,7 +43,7 @@ void	handle_prefixes(t_specs *specs, char *str, size_t *str_len)
 		{
 			if (specs->force_sign == 1)
 				write(1, "+", 1);
-			else if (specs->add_space == 1 && specs->left_justify == 1)
+			else if (specs->add_space == 1)
 				write(1, " ", 1);
 		}
 	}
@@ -72,7 +72,7 @@ size_t	get_line_length(t_specs *specs, char *converted_str)
 		specs->precision += 2;
 	}
 	specs->precision -= line_len;
-	if (is_decimal(specs->specifier) && converted_str[0] == '-')
+	if (is_decimal(specs->specifier) && (converted_str[0] == '-' || specs->add_space == 1))
 		specs->precision++;
 	if (specs->precision > 0)
 		line_len += specs->precision;
@@ -85,11 +85,11 @@ size_t	handle_conversion_specs(t_specs specs, char *converted_str)
 
 	line_len = get_line_length(&specs, converted_str);
 	if (specs.left_justify == 1)
-		handle_prefixes(&specs, converted_str, &line_len);
+		handle_prefixes(&specs, converted_str);
 	if (specs.min_field_width > 0 && specs.left_justify == 0)
-		handle_min_field_width(specs, converted_str, &line_len);
+		handle_field_width(specs, converted_str, &line_len);
 	if (specs.left_justify == 0)
-		handle_prefixes(&specs, converted_str, &line_len);
+		handle_prefixes(&specs, converted_str);
 	if (specs.precision > 0)
 		handle_precision(specs);
 	return (line_len);

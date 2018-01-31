@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/16 16:06:00 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/01/29 15:15:42 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/01/31 18:24:12 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,16 @@ void	output_handler(t_specs specs, va_list *arg_list, int *n)
 		*n += handle_str_wide(specs, arg_list);
 	else if (specs.specifier == 'p')
 		*n += handle_pointer(specs, arg_list);
-	else if (specs.specifier == 'd' || specs.specifier == 'i')
-		*n += handle_decimal(specs, arg_list);
-	else if (specs.specifier == 'D' || specs.size_modifier == l)
-		*n += handle_decimal_long(specs, arg_list);
+	else if (is_decimal(specs.specifier) == 1)
+		*n += handle_int(specs, arg_list);
+	else if (specs.specifier == 'u' || specs.specifier == 'U' ||
+			 specs.specifier == 'o' || specs.specifier == 'O' ||
+			 specs.specifier == 'x' || specs.specifier == 'X')
+		*n += handle_int_u(specs, arg_list);	//	<--- TODO modify this func to handle integers with all base values
 	else if (specs.specifier == 'c')
 		*n += handle_char(arg_list);
 	else if (specs.specifier == 'C')
 		*n += handle_char_wide(specs, arg_list);
-
-	//
-	//	TODO all other types handling
-	//
-
 }
 
 void	format_parse(char **format, va_list *arg_list, int *chars_printed)
@@ -80,12 +77,13 @@ int		ft_printf(const char *format, ...)
 int		main(void)
 {
 	int *pointer;
+	long int eleven = -11;
 	int ft_ret;
 	int ret;
 
 	//setlocale(LC_ALL, "");
-	ft_ret = ft_printf("[ft_printf]\t[%0.10s]\n", "12345");
-	ret = printf("   [printf]\t[%0.10s]\n", "12345");
+	ft_ret = ft_printf("[ft_printf]\t[%03.2o]\n", 365756);
+	ret = printf("   [printf]\t[%03.2o]\n", 365756);
 	printf("\n[ft_ret] ---> %i\n", ft_ret);
 	printf("   [ret] ---> %i\n", ret);
 	return (0);
