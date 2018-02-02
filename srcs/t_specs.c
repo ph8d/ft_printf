@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 11:46:01 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/01/29 12:22:06 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/02 13:10:02 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	t_specs_init(t_specs *conversion_specs)
 char	*t_specs_get_specs(t_specs *conversion_specs, char *format)
 {
 	t_specs_init(conversion_specs);
-	while ((!is_specifier(*format) && *format != '\0'))
+	while ((!is_specifier(*format, "sSpdDioOuUxXcC") && *format != '\0'))
 	{
 		if (*format == '-')
 			conversion_specs->left_justify = 1;
@@ -59,14 +59,14 @@ char	*t_specs_get_specs(t_specs *conversion_specs, char *format)
 		else if (*format == '0' && *(format - 1) != '.')
 			conversion_specs->padding_char = '0';
 		else if (*format == '.')
-			conversion_specs->precision = cut_digit_from_string(&format); //  <--- this function is doing weird things
-		else if (ft_isdigit(*format))
+			conversion_specs->precision = cut_digit_from_string(&format);
+		else if (ft_isdigit(*format) == 1)
 			conversion_specs->min_field_width = cut_digit_from_string(&format);
 		format++;
 	}
 	if (conversion_specs->precision != -1 || conversion_specs->left_justify == 1)
 		conversion_specs->padding_char = ' ';
-	if (is_specifier(*format))
+	if (is_specifier(*format, "sSpdDioOuUxXcC"))
 		conversion_specs->specifier = *format;
 	conversion_specs->size_modifier = t_specs_get_size_modifier(format - 2);
 	return (format);

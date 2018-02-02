@@ -6,51 +6,31 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 11:42:23 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/01/31 17:12:36 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/02 14:55:54 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		is_decimal(char c)
+int		is_specifier(char c, char* specifier)
 {
-	char *is_decimal;
-
-	is_decimal = "dDi";
-	while (*is_decimal != '\0')
+	while (*specifier != '\0')
 	{
-		if (c == *is_decimal)
+		if (c == *specifier)
 			return (1);
-		is_decimal++;
-	}
-	return (0);
-}
-
-int		is_specifier(char c)
-{
-	char *is_specifier;
-
-	is_specifier = "sSpdDioOuUxXcC";
-	while (*is_specifier != '\0')
-	{
-		if (c == *is_specifier)
-			return (1);
-		is_specifier++;
+		specifier++;
 	}
 	return (0);
 }
 
 size_t	get_base_value(t_specs specs)
 {
-	size_t base;
-
 	if (specs.specifier == 'o' || specs.specifier == 'O')
-		base = 8;
-	else if (specs.specifier == 'h' || specs.specifier == 'H')
-		base = 16;
-	else
-		base = 10;
-	return (base);
+		return (8);
+	if (specs.specifier == 'x' || specs.specifier == 'X' ||
+		specs.specifier == 'p')
+		return (16);
+	return (10);
 }
 
 int		cut_digit_from_string(char **str)
@@ -80,21 +60,38 @@ int		cut_digit_from_string(char **str)
 	return (result);
 }
 
-ssize_t get_correct_data_type(va_list *arg_list, t_specs specs)
+size_t get_unsigned_data_type(va_list *arg_list, t_specs specs)
 {
-	ssize_t result;
-
 	if (specs.size_modifier == h)
-		result = va_arg(*arg_list, short int);
+		return (va_arg(*arg_list, unsigned short int));
+	else if (specs.size_modifier == hh)
+		return (va_arg(*arg_list, unsigned char));
 	else if (specs.size_modifier == l)
-		result = va_arg(*arg_list, long int);
+		return (va_arg(*arg_list, unsigned long int));
 	else if (specs.size_modifier == ll)
-		result = va_arg(*arg_list, long long int);
+		return (va_arg(*arg_list, unsigned long long int));
 	else if (specs.size_modifier == j)
-		result = va_arg(*arg_list, intmax_t);
+		return (va_arg(*arg_list, uintmax_t));
 	else if (specs.size_modifier == z)
-		result = va_arg(*arg_list, ssize_t);
+		return (va_arg(*arg_list, size_t));
 	else
-		result = va_arg(*arg_list, int);
-	return (result);
+		return (va_arg(*arg_list, unsigned int));
+}
+
+ssize_t get_signed_data_type(va_list *arg_list, t_specs specs)
+{
+	if (specs.size_modifier == h)
+		return (va_arg(*arg_list, short int));
+	else if (specs.size_modifier == hh)
+		return (va_arg(*arg_list, unsigned int));
+	else if (specs.specifier == 'D' || specs.size_modifier == l)
+		return (va_arg(*arg_list, long int));
+	else if (specs.size_modifier == ll)
+		return (va_arg(*arg_list, long long int));
+	else if (specs.size_modifier == j)
+		return (va_arg(*arg_list, intmax_t));
+	else if (specs.size_modifier == z)
+		return (va_arg(*arg_list, ssize_t));
+	else
+		return (va_arg(*arg_list, int));
 }
