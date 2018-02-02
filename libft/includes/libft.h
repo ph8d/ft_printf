@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/28 15:30:44 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/01/21 16:31:19 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/02 17:34:09 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ typedef struct	s_node
 	struct s_node	*prev;
 }				t_node;
 
+
+int				ft_count_active_bytes(unsigned int value);
 int				get_next_line(int fd, char **line);
 void			*ft_memset(void *b, int c, size_t len);
 void			ft_bzero(void *s, size_t n);
@@ -81,7 +83,7 @@ char			**ft_strsplit(char const *s, char c);
 char			*ft_itoa(int n);
 char			*ft_itoa_base(size_t value, size_t base, int is_negative);
 void			ft_putchar(char c);
-int				ft_uchar(unsigned int c);
+void			ft_uchar(unsigned int c);
 void			ft_putstr(char const *s);
 void			ft_putendl(char const *s);
 void			ft_putnbr(int n);

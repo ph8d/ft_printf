@@ -25,7 +25,7 @@ ft_strnew.c ft_strnstr.c ft_strrchr.c ft_strsplit.c ft_strstr.c ft_strsub.c \
 ft_strtrim.c ft_tolower.c ft_toupper.c ft_lstnew.c ft_lstdelone.c ft_lstdel.c \
 ft_lstadd.c ft_lstiter.c ft_lstmap.c ft_strarr_new.c ft_strarr_del.c ft_lstlen.c \
 ft_lstfind.c ft_arrtolst.c ft_lstdelcontent.c ft_itoa_base.c get_next_line.c \
-ft_uchar.c
+ft_uchar.c ft_count_active_bytes.c
 
 OBJ = $(SRCS:.c=.o)
 

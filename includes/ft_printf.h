@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/16 17:52:34 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/02 14:59:12 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/02 17:41:54 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef	struct	s_specs
 	char	add_space;
 	char	alt_conversion;
 	char	padding_char;
-	int 	min_field_width;
+	int		min_field_width;
 	int		precision;
 	t_size	size_modifier;
 }				t_specs;
@@ -52,10 +52,10 @@ size_t			get_unsigned_data_type(va_list *arg_list, t_specs specs);
 int				handle_int(t_specs specs, va_list *arg_list);
 int				handle_int_u(t_specs specs, va_list *arg_list);
 
-int				handle_char_wide(t_specs conversion_specs, va_list *arg_list);
-int				handle_char(t_specs specs, va_list *arg_list);
 int				handle_str_wide(t_specs conversion_specs, va_list *arg_list);
 int				handle_str(t_specs specs, va_list *arg_list);
+int				handle_char_wide(va_list *arg_list);
+int				handle_char(t_specs specs, va_list *arg_list);
 
 void			handle_precision(t_specs specs);
 void			handle_field_width(t_specs specs, size_t *str_len);

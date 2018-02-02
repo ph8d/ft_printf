@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/20 17:31:01 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/01/21 16:13:43 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/02 17:34:49 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 #define MASK2 (unsigned int)14712960
 #define MASK3 (unsigned int)4034953344
 
+#include "libft.h"
 #include <unistd.h>
 
-static	void	four_bytes(unsigned int c, unsigned char *byte)
+static	void	four_bytes(unsigned int c, unsigned int *byte)
 {
-	unsigned char octet;
+	unsigned int octet;
 
 	byte[3] = (c << 26) >> 26;
 	byte[2] = ((c >> 6) << 26) >> 26;
@@ -34,9 +35,9 @@ static	void	four_bytes(unsigned int c, unsigned char *byte)
 	write(1, &octet, 1);
 }
 
-static	void	three_bytes(unsigned int c, unsigned char *byte)
+static	void	three_bytes(unsigned int c, unsigned int *byte)
 {
-	unsigned char octet;
+	unsigned int octet;
 
 	byte[2] = (c << 26) >> 26;
 	byte[1] = ((c >> 6) << 26) >> 26;
@@ -49,33 +50,16 @@ static	void	three_bytes(unsigned int c, unsigned char *byte)
 	write(1, &octet, 1);
 }
 
-static	int		count_active_bits(unsigned int value)
-{
-	int i;
-	int active_bit_pos;
-
-	i = 0;
-	active_bit_pos = 0;
-	while (i != 32)
-	{
-		if ((value & 1) == 1)
-			active_bit_pos = i;
-		value = value >> 1;
-		i++;
-	}
-	return (active_bit_pos + 1);
-}
-
 void			ft_uchar(unsigned int c)
 {
-	int				active_bits;
-	unsigned char	byte[4];
-	unsigned char	octet;
+	int				active_bytes;
+	unsigned int	byte[4];
+	unsigned int	octet;
 
-	active_bits = count_active_bits(c);
-	if (active_bits <= 7)
+	active_bytes = ft_count_active_bytes(c);
+	if (active_bytes == 1)
 		write(1, &c, 1);
-	else if (active_bits <= 11)
+	else if (active_bytes == 2)
 	{
 		byte[1] = (c << 26) >> 26;
 		byte[0] = ((c >> 6) << 27) >> 27;
@@ -84,7 +68,7 @@ void			ft_uchar(unsigned int c)
 		octet = ((MASK1 << 24) >> 24) | byte[1];
 		write(1, &octet, 1);
 	}
-	else if (active_bits <= 16)
+	else if (active_bytes == 3)
 		three_bytes(c, byte);
 	else
 		four_bytes(c, byte);

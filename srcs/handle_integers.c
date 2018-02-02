@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 14:36:48 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/02 14:58:54 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/02 15:00:05 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int		handle_int_u(t_specs specs, va_list *arg_list)
 	{
 		while (integer_str[i] != '\0')
 			write(1, &integer_str[i++], 1);
-
 	}
 	free(integer_str);
 	if (specs.left_justify == 1)

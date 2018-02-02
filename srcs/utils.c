@@ -6,13 +6,13 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 11:42:23 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/02 14:55:54 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/02 17:50:47 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		is_specifier(char c, char* specifier)
+int		is_specifier(char c, char *specifier)
 {
 	while (*specifier != '\0')
 	{
@@ -60,7 +60,7 @@ int		cut_digit_from_string(char **str)
 	return (result);
 }
 
-size_t get_unsigned_data_type(va_list *arg_list, t_specs specs)
+size_t	get_unsigned_data_type(va_list *arg_list, t_specs specs)
 {
 	if (specs.size_modifier == h)
 		return (va_arg(*arg_list, unsigned short int));
@@ -78,7 +78,7 @@ size_t get_unsigned_data_type(va_list *arg_list, t_specs specs)
 		return (va_arg(*arg_list, unsigned int));
 }
 
-ssize_t get_signed_data_type(va_list *arg_list, t_specs specs)
+ssize_t	get_signed_data_type(va_list *arg_list, t_specs specs)
 {
 	if (specs.size_modifier == h)
 		return (va_arg(*arg_list, short int));

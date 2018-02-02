@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 17:46:54 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/02 15:44:05 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/02 17:48:40 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	handle_prefixes(t_specs *specs, char *str, int line_len)
 		else if (specs->specifier == 'X')
 			ft_putstr("0X");
 		else if ((specs->specifier == 'o' || specs->specifier == 'O') &&
-				  specs->precision < line_len)
+				specs->precision < line_len)
 			write(1, "0", 1);
 	}
 }
@@ -74,7 +74,7 @@ size_t	get_line_length(t_specs *specs, char *converted_str)
 			specs->precision++;
 	}
 	else if (specs->specifier == 'p' || ((specs->specifier == 'x' ||
-			 specs->specifier == 'X') && specs->alt_conversion == 1))
+			specs->specifier == 'X') && specs->alt_conversion == 1))
 	{
 		line_len += 2;
 		specs->precision += 2;
