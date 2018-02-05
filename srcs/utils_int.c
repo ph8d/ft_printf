@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/03 15:09:12 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/03 17:08:13 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/05 15:01:11 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ ssize_t	get_signed_data_type(va_list *arg_list, t_specs specs)
 	if (specs.size_modifier == h)
 		return ((short int)va_arg(*arg_list, ssize_t));
 	else if (specs.size_modifier == hh)
-		return (va_arg(*arg_list, unsigned int));
+		return ((signed char)va_arg(*arg_list, ssize_t));
 	else if (specs.specifier == 'D' || specs.size_modifier == l)
 		return (va_arg(*arg_list, long int));
 	else if (specs.size_modifier == ll)
@@ -59,11 +59,11 @@ ssize_t	get_signed_data_type(va_list *arg_list, t_specs specs)
 
 size_t	get_unsigned_data_type(va_list *arg_list, t_specs specs)
 {
-	if (specs.size_modifier == h)
+	if (specs.size_modifier == h && specs.specifier != 'U')
 		return ((unsigned short int)va_arg(*arg_list, size_t));
-	else if (specs.size_modifier == hh)
+	else if (specs.size_modifier == hh && specs.specifier != 'U')
 		return ((unsigned char)va_arg(*arg_list, size_t));
-	else if (specs.size_modifier == l)
+	else if (specs.size_modifier == l || specs.specifier == 'U')
 		return (va_arg(*arg_list, unsigned long int));
 	else if (specs.size_modifier == ll)
 		return (va_arg(*arg_list, unsigned long long int));
@@ -71,6 +71,8 @@ size_t	get_unsigned_data_type(va_list *arg_list, t_specs specs)
 		return (va_arg(*arg_list, uintmax_t));
 	else if (specs.size_modifier == z)
 		return (va_arg(*arg_list, size_t));
+	else if (specs.specifier == 'p')
+		return ((size_t)(va_arg(*arg_list, unsigned int *)));
 	else
 		return (va_arg(*arg_list, unsigned int));
 }

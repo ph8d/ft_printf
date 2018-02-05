@@ -50,6 +50,25 @@ int		cut_digit_from_string(char **str)
 	return (result);
 }
 
+size_t	handle_str_null(t_specs specs)
+{
+	int		i;
+	char	*str;
+	size_t	line_len;
+
+	i = 0;
+	str = "(null)";
+	if ((int)(line_len = ft_strlen(str)) > specs.precision && specs.precision >= 0)
+		line_len = (size_t)specs.precision;
+	if (specs.left_justify == 0 && specs.min_field_width > 0)
+		handle_field_width(specs, &line_len);
+	while (str[i] != '\0' && i != specs.precision)
+		write(1, &str[i++], 1);
+	if (specs.left_justify == 1 && specs.min_field_width > 0)
+		handle_field_width(specs, &line_len);
+	return (line_len);
+}
+
 size_t	get_line_length(t_specs *specs, char *str)	//	<--- TODO fix this func!
 {
 	size_t line_len;

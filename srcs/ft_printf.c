@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/16 16:06:00 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/03 18:00:03 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/05 14:10:08 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,15 @@ void	output_handler(t_specs specs, va_list *arg_list, int *n)
 
 void	format_parse(char **format, va_list *arg_list, int *chars_printed)
 {
+	char	*format_start;
 	t_specs conversion_specs;
 
-	if (*(*format + 1) == '%')
+	format_start = *format;
+	if ((*format = t_specs_get_specs(&conversion_specs, (*format + 1))) == NULL)
 	{
-		write(1, "%", 1);
-		(*chars_printed)++;		//	<--- this whole thing is too messy
-		(*format)++;
+		*format = format_start;
 		return ;
 	}
-	*format = t_specs_get_specs(&conversion_specs, (*format + 1));
 	output_handler(conversion_specs, arg_list, chars_printed);
 }
 
@@ -76,17 +75,4 @@ int		ft_printf(const char *format, ...)
 	ret = format_read((char *)format, &arg_list);
 	va_end(arg_list);
 	return (ret);
-}
-
-int		main(void)
-{
-	int std_ret;
-	int ft_ret;
-
-	ft_ret = ft_printf("ft_printf ---> [@moulitest: %.d %.0d]\n", 43, 43);
-	  std_ret = printf("   printf ---> [@moulitest: %.d %.0d]\n", 42, 43);
-
-	printf("\n ft_ret ---> %i", ft_ret);
-	printf("\nstd_ret ---> %i\n", std_ret);
-	return (0);
 }

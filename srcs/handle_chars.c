@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 14:35:47 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/03 17:08:14 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/05 11:40:26 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,24 @@ int		handle_str_wide(t_specs specs, va_list *arg_list)
 	size_t			str_len;
 	unsigned int	*str_wide;
 
-	str_wide = va_arg(*arg_list, unsigned int *);
-	str_len = get_unicode_str_len(specs, str_wide);
-	bytes_to_print = str_len;
-	if (specs.left_justify == 0 && specs.min_field_width > 0)
-		handle_field_width(specs, &str_len);
-	i = 0;
-	while (bytes_to_print != 0)
+	if ((str_wide = va_arg(*arg_list, unsigned int *)) == NULL)
+		str_len = handle_str_null(specs);
+	else
 	{
-		ft_uchar(str_wide[i]);
-		bytes_to_print -= ft_count_active_bytes(str_wide[i]);
-		i++;
+		str_len = get_unicode_str_len(specs, str_wide);
+		bytes_to_print = str_len;
+		if (specs.left_justify == 0 && specs.min_field_width > 0)
+			handle_field_width(specs, &str_len);
+		i = 0;
+		while (bytes_to_print != 0)
+		{
+			ft_uchar(str_wide[i]);
+			bytes_to_print -= ft_count_active_bytes(str_wide[i]);
+			i++;
+		}
+		if (specs.left_justify == 1 && specs.min_field_width > 0)
+			handle_field_width(specs, &str_len);
 	}
-	if (specs.left_justify == 1 && specs.min_field_width > 0)
-		handle_field_width(specs, &str_len);
 	return ((int)str_len);
 }
 
@@ -58,15 +62,19 @@ int		handle_str(t_specs specs, va_list *arg_list)
 	char	*str;
 
 	i = 0;
-	str = va_arg(*arg_list, char *);
-	if ((int)(line_len = ft_strlen(str)) > specs.precision && specs.precision >= 0)
-		line_len = (size_t)specs.precision;
-	if (specs.left_justify == 0 && specs.min_field_width > 0)
-		handle_field_width(specs, &line_len);
-	while (str[i] != '\0' && i != specs.precision)
-		write(1, &str[i++], 1);
-	if (specs.left_justify == 1 && specs.min_field_width > 0)
-		handle_field_width(specs, &line_len);
+	if ((str = va_arg(*arg_list, char *)) == NULL)
+		line_len = handle_str_null(specs);
+	else
+	{
+		if ((int)(line_len = ft_strlen(str)) > specs.precision && specs.precision >= 0)
+			line_len = (size_t)specs.precision;
+		if (specs.left_justify == 0 && specs.min_field_width > 0)
+			handle_field_width(specs, &line_len);
+		while (str[i] != '\0' && i != specs.precision)
+			write(1, &str[i++], 1);
+		if (specs.left_justify == 1 && specs.min_field_width > 0)
+			handle_field_width(specs, &line_len);
+	}
 	return ((int)line_len);
 }
 

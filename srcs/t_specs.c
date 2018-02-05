@@ -6,11 +6,20 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 11:46:01 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/02 13:10:02 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/05 14:10:17 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+int 	t_specs_get_specifier(char *format, t_specs *specs)
+{
+	if (is_specifier(*format, "sSpdDioOuUxXcC%") == 0)
+		return (0);
+	else
+		specs->specifier = *format;
+	return (1);
+}
 
 t_size	t_specs_get_size_modifier(char *str)
 {
@@ -66,8 +75,8 @@ char	*t_specs_get_specs(t_specs *specs, char *format)
 	}
 	if (specs->precision != -1 || specs->left_justify == 1)
 		specs->padding_char = ' ';
-	if (is_specifier(*format, "sSpdDioOuUxXcC%"))
-		specs->specifier = *format;
+	if ((t_specs_get_specifier(format, specs)) == 0 || *format == '\0')
+		return (NULL);
 	specs->size_modifier = t_specs_get_size_modifier(format - 2);
 	return (format);
 }
