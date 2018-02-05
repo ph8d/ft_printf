@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 11:42:23 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/02 17:50:47 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/03 17:57:58 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,6 @@ int		is_specifier(char c, char *specifier)
 		specifier++;
 	}
 	return (0);
-}
-
-size_t	get_base_value(t_specs specs)
-{
-	if (specs.specifier == 'o' || specs.specifier == 'O')
-		return (8);
-	if (specs.specifier == 'x' || specs.specifier == 'X' ||
-		specs.specifier == 'p')
-		return (16);
-	return (10);
 }
 
 int		cut_digit_from_string(char **str)
@@ -60,38 +50,53 @@ int		cut_digit_from_string(char **str)
 	return (result);
 }
 
-size_t	get_unsigned_data_type(va_list *arg_list, t_specs specs)
+size_t	get_line_length(t_specs *specs, char *str)	//	<--- TODO fix this func!
 {
-	if (specs.size_modifier == h)
-		return (va_arg(*arg_list, unsigned short int));
-	else if (specs.size_modifier == hh)
-		return (va_arg(*arg_list, unsigned char));
-	else if (specs.size_modifier == l)
-		return (va_arg(*arg_list, unsigned long int));
-	else if (specs.size_modifier == ll)
-		return (va_arg(*arg_list, unsigned long long int));
-	else if (specs.size_modifier == j)
-		return (va_arg(*arg_list, uintmax_t));
-	else if (specs.size_modifier == z)
-		return (va_arg(*arg_list, size_t));
+	size_t line_len;
+
+	if (specs->precision == 0 && str[0] == '0' && str[1] == '\0')
+		line_len = 0;
 	else
-		return (va_arg(*arg_list, unsigned int));
+		line_len = ft_strlen(str);
+	if (is_specifier(specs->specifier, "dDi") && str[0] != '-')
+	{
+		if (specs->force_sign == 1 || specs->add_space == 1)
+			line_len++;
+		if (specs->force_sign == 1)
+			specs->precision++;
+	}
+	else if (specs->specifier == 'p' || ((specs->specifier == 'x' ||
+			specs->specifier == 'X') && specs->alt_conversion == 1))
+	{
+		if (specs->specifier == 'p' || !(str[0] == '0' && str[1] == '\0'))
+		{
+			line_len += 2;
+			specs->precision += 2;
+		}
+	}
+	else if ((specs->specifier == 'o' || specs->specifier == 'O') && specs->alt_conversion == 1)
+		line_len++;
+	specs->precision -= line_len;
+	if (is_specifier(specs->specifier, "dDi") && (str[0] == '-' || specs->add_space == 1))
+		specs->precision++;
+	if (specs->precision > 0)
+		line_len += specs->precision;
+	return (line_len);
 }
 
-ssize_t	get_signed_data_type(va_list *arg_list, t_specs specs)
+size_t	get_unicode_str_len(t_specs specs, unsigned int *str)
 {
-	if (specs.size_modifier == h)
-		return (va_arg(*arg_list, short int));
-	else if (specs.size_modifier == hh)
-		return (va_arg(*arg_list, unsigned int));
-	else if (specs.specifier == 'D' || specs.size_modifier == l)
-		return (va_arg(*arg_list, long int));
-	else if (specs.size_modifier == ll)
-		return (va_arg(*arg_list, long long int));
-	else if (specs.size_modifier == j)
-		return (va_arg(*arg_list, intmax_t));
-	else if (specs.size_modifier == z)
-		return (va_arg(*arg_list, ssize_t));
-	else
-		return (va_arg(*arg_list, int));
+	size_t	len;
+	int		current_char_len;
+
+	len = 0;
+	while (*str != '\0')
+	{
+		current_char_len = ft_count_active_bytes(*str);
+		if (specs.precision >= 0 && (int)(len + current_char_len) > specs.precision)
+			break ;
+		else
+			len += ft_count_active_bytes(*(str++));
+	}
+	return (len);
 }

@@ -6,28 +6,11 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 14:36:48 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/02 15:00:05 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/03 18:09:53 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-void	print_hex_uppercase(char *str)
-{
-	int i;
-	int c;
-
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (ft_isalpha(str[i]) == 1)
-			c = str[i] - 32;
-		else
-			c = str[i];
-		write(1, &c, 1);
-		i++;
-	}
-}
 
 int		handle_int_u(t_specs specs, va_list *arg_list)
 {
@@ -47,7 +30,7 @@ int		handle_int_u(t_specs specs, va_list *arg_list)
 		i++;
 	if (specs.specifier == 'X')
 		print_hex_uppercase(integer_str);
-	else
+	else if (!(specs.precision == 0 && integer_str[0] == '0' && integer_str[1] == '\0'))
 	{
 		while (integer_str[i] != '\0')
 			write(1, &integer_str[i++], 1);
@@ -76,8 +59,9 @@ int		handle_int(t_specs specs, va_list *arg_list)
 	}
 	integer_str = ft_itoa_base((size_t)integer, 10, is_negative);
 	str_len = handle_conversion_specs(specs, integer_str);
-	while (integer_str[i] != '\0')
-		write(1, &integer_str[i++], 1);
+	if (!(specs.precision == 0 && integer_str[0] == '0' && integer_str[1] == '\0'))
+		while (integer_str[i] != '\0')
+			write(1, &integer_str[i++], 1);
 	free(integer_str);
 	if (specs.left_justify == 1)
 		handle_field_width(specs, &str_len);

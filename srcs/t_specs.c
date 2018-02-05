@@ -30,44 +30,44 @@ t_size	t_specs_get_size_modifier(char *str)
 	return (none);
 }
 
-void	t_specs_init(t_specs *conversion_specs)
+void	t_specs_init(t_specs *specs)
 {
-	conversion_specs->specifier = 0;
-	conversion_specs->left_justify = 0;
-	conversion_specs->alt_conversion = 0;
-	conversion_specs->padding_char = ' ';
-	conversion_specs->add_space = 0;
-	conversion_specs->force_sign = 0;
-	conversion_specs->min_field_width = -1;
-	conversion_specs->precision = -1;
-	conversion_specs->size_modifier = none;
+	specs->specifier = 0;
+	specs->left_justify = 0;
+	specs->alt_conversion = 0;
+	specs->padding_char = ' ';
+	specs->add_space = 0;
+	specs->force_sign = 0;
+	specs->min_field_width = -1;
+	specs->precision = -1;
+	specs->size_modifier = none;
 }
 
-char	*t_specs_get_specs(t_specs *conversion_specs, char *format)
+char	*t_specs_get_specs(t_specs *specs, char *format)
 {
-	t_specs_init(conversion_specs);
-	while ((!is_specifier(*format, "sSpdDioOuUxXcC") && *format != '\0'))
+	t_specs_init(specs);
+	while ((!is_specifier(*format, "sSpdDioOuUxXcC%") && *format != '\0'))
 	{
 		if (*format == '-')
-			conversion_specs->left_justify = 1;
+			specs->left_justify = 1;
 		else if (*format == '+')
-			conversion_specs->force_sign = 1;
+			specs->force_sign = 1;
 		else if (*format == ' ')
-			conversion_specs->add_space = 1;
+			specs->add_space = 1;
 		else if (*format == '#')
-			conversion_specs->alt_conversion = 1;
+			specs->alt_conversion = 1;
 		else if (*format == '0' && *(format - 1) != '.')
-			conversion_specs->padding_char = '0';
+			specs->padding_char = '0';
 		else if (*format == '.')
-			conversion_specs->precision = cut_digit_from_string(&format);
+			specs->precision = cut_digit_from_string(&format);
 		else if (ft_isdigit(*format) == 1)
-			conversion_specs->min_field_width = cut_digit_from_string(&format);
+			specs->min_field_width = cut_digit_from_string(&format);
 		format++;
 	}
-	if (conversion_specs->precision != -1 || conversion_specs->left_justify == 1)
-		conversion_specs->padding_char = ' ';
-	if (is_specifier(*format, "sSpdDioOuUxXcC"))
-		conversion_specs->specifier = *format;
-	conversion_specs->size_modifier = t_specs_get_size_modifier(format - 2);
+	if (specs->precision != -1 || specs->left_justify == 1)
+		specs->padding_char = ' ';
+	if (is_specifier(*format, "sSpdDioOuUxXcC%"))
+		specs->specifier = *format;
+	specs->size_modifier = t_specs_get_size_modifier(format - 2);
 	return (format);
 }

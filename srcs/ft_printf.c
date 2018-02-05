@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/16 16:06:00 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/02 17:46:02 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/03 18:00:03 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ void	output_handler(t_specs specs, va_list *arg_list, int *n)
 	else if (specs.specifier == 'c')
 		*n += handle_char(specs, arg_list);
 	else if (specs.specifier == 'C')
-		*n += handle_char_wide(arg_list);
+		*n += handle_char_wide(specs, arg_list);
+	else if (specs.specifier == '%')
+		*n += handle_percent(specs);
 }
 
 void	format_parse(char **format, va_list *arg_list, int *chars_printed)
@@ -71,22 +73,20 @@ int		ft_printf(const char *format, ...)
 	va_list	arg_list;
 
 	va_start(arg_list, format);
-	ret = format_read(format, &arg_list);
+	ret = format_read((char *)format, &arg_list);
 	va_end(arg_list);
 	return (ret);
 }
 
 int		main(void)
 {
-	int *pointer;
-	long int eleven = -11;
+	int std_ret;
 	int ft_ret;
-	int ret;
 
-	setlocale(LC_ALL, "");
-	ft_ret = ft_printf("[ft_printf]\t[%+# 15.5S]\n", L"привет ма ныга");
-	ret = printf("   [printf]\t[%+# 15.5S]\n", L"привет ма ныга");
-	printf("\n[ft_ret] ---> %i\n", ft_ret);
-	printf("   [ret] ---> %i\n", ret);
+	ft_ret = ft_printf("ft_printf ---> [@moulitest: %.d %.0d]\n", 43, 43);
+	  std_ret = printf("   printf ---> [@moulitest: %.d %.0d]\n", 42, 43);
+
+	printf("\n ft_ret ---> %i", ft_ret);
+	printf("\nstd_ret ---> %i\n", std_ret);
 	return (0);
 }
