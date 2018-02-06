@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 11:42:23 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/05 17:34:30 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/06 18:03:19 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ size_t	get_line_length(t_specs *specs, char *str)	//	<--- TODO fix this func!
 {
 	size_t line_len;
 
-	if (specs->precision == 0 && str[0] == '0' && str[1] == '\0' && specs->specifier != 'o' && specs->specifier != 'O')
+	if ((specs->precision == 0 && str[0] == '0' && str[1] == '\0') &&
+		is_specifier(specs->specifier ,"oOuUxXdDip"))
 		line_len = 0;
 	else
 		line_len = ft_strlen(str);
@@ -85,7 +86,7 @@ size_t	get_line_length(t_specs *specs, char *str)	//	<--- TODO fix this func!
 			specs->precision++;
 	}
 	else if (specs->specifier == 'p' || ((specs->specifier == 'x' ||
-			specs->specifier == 'X') && specs->alt_conversion == 1))
+										  specs->specifier == 'X') && specs->alt_conversion == 1))
 	{
 		if (specs->specifier == 'p' || !(str[0] == '0' && str[1] == '\0'))
 		{
@@ -94,7 +95,7 @@ size_t	get_line_length(t_specs *specs, char *str)	//	<--- TODO fix this func!
 		}
 	}
 	else if ((specs->specifier == 'o' || specs->specifier == 'O')
-			 && specs->alt_conversion == 1 && !(str[0] == '0' && str[1] == '\0'))
+			 && specs->alt_conversion == 1)
 		line_len++;
 	specs->precision -= line_len;
 	if (is_specifier(specs->specifier, "dDi") && (str[0] == '-' || specs->add_space == 1))
@@ -119,4 +120,4 @@ size_t	get_unicode_str_len(t_specs specs, unsigned int *str)
 			len += ft_count_active_bytes(*(str++));
 	}
 	return (len);
-}
+} 

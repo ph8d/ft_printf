@@ -6,37 +6,23 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 11:46:01 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/05 16:20:11 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/06 14:55:31 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int 	t_specs_get_specifier(char *format, t_specs *specs)
+t_size	t_specs_get_size_modifier(char **str)
 {
-	if (is_specifier(*format, "sSpdDioOuUxXcC%") == 0)
-		return (0);
-	else
-		specs->specifier = *format;
-	return (1);
-}
+	char size_modifier;
 
-t_size	t_specs_get_size_modifier(char *str)
-{
-	char *size_modifier;
-
-	size_modifier = "hljz";
-	while (*size_modifier != '\0')
+	size_modifier = *(*str);
+	if (*(*(str + 1)) == size_modifier)
 	{
-		if (*(str + 1) == *size_modifier)
-		{
-			if (*str == *size_modifier)
-				return ((t_size)(*size_modifier + *size_modifier));
-			return ((t_size)*size_modifier);
-		}
-		size_modifier++;
+		(*str)++;
+		size_modifier += size_modifier;
 	}
-	return (none);
+	return ((t_size)size_modifier);
 }
 
 void	t_specs_init(t_specs *specs)
@@ -71,13 +57,12 @@ char	*t_specs_get_specs(t_specs *specs, char *format)
 			specs->precision = cut_digit_from_string(&format);
 		else if (ft_isdigit(*format) == 1)
 			specs->min_field_width = cut_digit_from_string(&format);
-		else if (!is_specifier(*format, "hljz"))
-			return (format - 1);
+		else if (is_specifier(*format, "hljz") == 1)
+			specs->size_modifier += t_specs_get_size_modifier(&format);
+		else
+			break ;
 		format++;
 	}
-	if ((t_specs_get_specifier(format, specs)) == 0 || *format == '\0')
-		return (NULL);
-	specs->size_modifier = t_specs_get_size_modifier(format - 2);
+	specs->specifier = *format;
 	return (format);
 }
-

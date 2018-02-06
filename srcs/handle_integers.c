@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_decimals.c                                  :+:      :+:    :+:   */
+/*   handle_integers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 14:36:48 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/05 17:43:56 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/06 17:15:11 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,16 @@ int		handle_int_u(t_specs specs, va_list *arg_list)
 	str_len = handle_conversion_specs(specs, integer_str);
 	if (integer_str[0] == '-')
 		i++;
-	if (specs.specifier == 'X')
-		print_hex_uppercase(integer_str);
-	else if (!(specs.precision == 0 && integer == 0) ||
-			(specs.specifier == 'o' || specs.specifier == 'O'))
+	if (!(specs.precision == 0 && integer == 0 &&
+			   is_specifier(specs.specifier ,"oOuUxXdDip")))
 	{
-		while (integer_str[i] != '\0')
-			write(1, &integer_str[i++], 1);
+		if (specs.specifier == 'X')
+			print_hex_uppercase(integer_str);
+		else
+		{
+			while (integer_str[i] != '\0')
+				write(1, &integer_str[i++], 1);
+		}
 	}
 	free(integer_str);
 	if (specs.left_justify == 1)
@@ -60,7 +63,7 @@ int		handle_int(t_specs specs, va_list *arg_list)
 	}
 	integer_str = ft_itoa_base((size_t)integer, 10, is_negative);
 	str_len = handle_conversion_specs(specs, integer_str);
-	if (!(specs.precision == 0 && integer_str[0] == '0' && integer_str[1] == '\0'))
+	if (!(specs.precision == 0 && integer == 0))
 		while (integer_str[i] != '\0')
 			write(1, &integer_str[i++], 1);
 	free(integer_str);

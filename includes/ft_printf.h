@@ -6,14 +6,14 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/16 17:52:34 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/05 15:06:41 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/06 18:10:14 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-# include "libft.h"
+# include "../libft/includes/libft.h"
 
 # include <unistd.h>
 # include <stdarg.h>
@@ -69,8 +69,7 @@ void			handle_prefixes_hex(t_specs *specs, char *str);
 void			handle_prefixes(t_specs *specs, char *str, int line_len);
 size_t			handle_conversion_specs(t_specs specs, char *converted_str);
 
-int				t_specs_get_specifier(char *format, t_specs *specs);
-t_size			t_specs_get_size_modifier(char *str);
+t_size			t_specs_get_size_modifier(char **str);
 void			t_specs_init(t_specs *specs);
 char			*t_specs_get_specs(t_specs *specs, char *format);
 
