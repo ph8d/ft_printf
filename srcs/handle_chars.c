@@ -6,26 +6,13 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 14:35:47 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/06 14:46:45 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/06 20:24:49 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 
 #include "ft_printf.h"
-
-int 	handle_percent(t_specs specs)
-{
-	size_t	str_len;
-
-	str_len = 1;
-	if (specs.left_justify == 0 && specs.min_field_width > 0)
-		handle_field_width(specs, &str_len);
-	write(1, "%", 1);
-	if (specs.left_justify == 1 && specs.min_field_width > 0)
-		handle_field_width(specs, &str_len);
-	return ((int)str_len);
-}
 
 int		handle_str_wide(t_specs specs, va_list *arg_list)
 {

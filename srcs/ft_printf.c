@@ -6,28 +6,16 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/16 16:06:00 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/06 18:09:41 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/06 20:27:39 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-int 	handle_undefined_specifier(t_specs specs, char current_char)
-{
-	size_t line_len;
-
-	line_len = 1;
-	if (specs.left_justify == 0 && specs.min_field_width > 0)
-		handle_field_width(specs, &line_len);
-	write(1, &current_char, 1);
-	if (specs.left_justify == 1 && specs.min_field_width > 0)
-		handle_field_width(specs, &line_len);
-	return ((int)line_len);
-}
-
 int		output_handler(t_specs specs, va_list *arg_list, char current_char)
 {
-	if (specs.specifier == 'S' || (specs.specifier == 's' && specs.size_modifier == l))
+	if (specs.specifier == 'S' || (specs.specifier == 's' && 
+		specs.size_modifier == l))
 		return (handle_str_wide(specs, arg_list));
 	else if (specs.specifier == 's')
 		return (handle_str(specs, arg_list));
@@ -35,7 +23,8 @@ int		output_handler(t_specs specs, va_list *arg_list, char current_char)
 		return (handle_int(specs, arg_list));
 	else if (is_specifier(specs.specifier, "uUoOxXp") == 1)
 		return (handle_int_u(specs, arg_list));
-	else if (specs.specifier == 'C' || (specs.specifier == 'c' && specs.size_modifier == l))
+	else if (specs.specifier == 'C' || (specs.specifier == 'c' && 
+		specs.size_modifier == l))
 		return (handle_char_wide(specs, arg_list));
 	else if (specs.specifier == 'c')
 		return (handle_char(specs, arg_list));

@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 17:46:54 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/06 18:03:10 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/06 20:18:49 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	handle_prefixes_hex(t_specs *specs, char *str)
 		ft_putstr("0X");
 }
 
-void	handle_prefixes(t_specs *specs, char *str, int line_len)
+void	handle_prefixes(t_specs *specs, char *str)
 {
 	if (is_specifier(specs->specifier, "dDi") == 1)
 	{
@@ -64,11 +64,10 @@ void	handle_prefixes(t_specs *specs, char *str, int line_len)
 		ft_putstr("0x");
 	else if (specs->alt_conversion == 1)
 	{
-		if ((specs->specifier == 'o' || specs->specifier == 'O'))
-			write(1, "0", 1);
+		if ((specs->specifier == 'o' || specs->specifier == 'O') &&
+		 !(specs->precision < -1 && str[0] == '0'))
+				write(1, "0", 1);
 	}
-	line_len++;
-	line_len--;
 }
 
 size_t	handle_conversion_specs(t_specs specs, char *converted_str)
@@ -80,14 +79,14 @@ size_t	handle_conversion_specs(t_specs specs, char *converted_str)
 		&& specs.left_justify == 0 && specs.alt_conversion == 1 && specs.padding_char == '0')
 		handle_prefixes_hex(&specs, converted_str);
 	else if (specs.left_justify == 1 || specs.padding_char == '0')
-		handle_prefixes(&specs, converted_str, (int)line_len);
+		handle_prefixes(&specs, converted_str);
 	if (specs.min_field_width > 0 && specs.left_justify == 0)
 		handle_field_width(specs, &line_len);
 	if ((specs.specifier == 'x' || specs.specifier == 'X')
 		&& (specs.left_justify == 1 || specs.padding_char == ' ') && specs.alt_conversion == 1)
 		handle_prefixes_hex(&specs, converted_str);
 	else if (specs.left_justify == 0 && specs.padding_char != '0')
-		handle_prefixes(&specs, converted_str, (int)line_len);
+		handle_prefixes(&specs, converted_str);
 	if (specs.precision > 0)
 		handle_precision(specs);
 	return (line_len);
