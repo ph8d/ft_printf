@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/03 15:09:12 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/05 15:01:11 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/05 18:32:31 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ void	print_hex_uppercase(char *str)
 
 ssize_t	get_signed_data_type(va_list *arg_list, t_specs specs)
 {
+	if (specs.specifier == 'D' || specs.size_modifier == l)
+		return (va_arg(*arg_list, long int));
 	if (specs.size_modifier == h)
 		return ((short int)va_arg(*arg_list, ssize_t));
 	else if (specs.size_modifier == hh)
 		return ((signed char)va_arg(*arg_list, ssize_t));
-	else if (specs.specifier == 'D' || specs.size_modifier == l)
-		return (va_arg(*arg_list, long int));
 	else if (specs.size_modifier == ll)
 		return (va_arg(*arg_list, long long int));
 	else if (specs.size_modifier == j)
@@ -59,12 +59,12 @@ ssize_t	get_signed_data_type(va_list *arg_list, t_specs specs)
 
 size_t	get_unsigned_data_type(va_list *arg_list, t_specs specs)
 {
-	if (specs.size_modifier == h && specs.specifier != 'U')
-		return ((unsigned short int)va_arg(*arg_list, size_t));
-	else if (specs.size_modifier == hh && specs.specifier != 'U')
-		return ((unsigned char)va_arg(*arg_list, size_t));
-	else if (specs.size_modifier == l || specs.specifier == 'U')
+	if (specs.specifier == 'U' || specs.specifier == 'O' || specs.size_modifier == l)
 		return (va_arg(*arg_list, unsigned long int));
+	else if (specs.size_modifier == h)
+		return ((unsigned short int)va_arg(*arg_list, size_t));
+	else if (specs.size_modifier == hh)
+		return ((unsigned char)va_arg(*arg_list, size_t));
 	else if (specs.size_modifier == ll)
 		return (va_arg(*arg_list, unsigned long long int));
 	else if (specs.size_modifier == j)

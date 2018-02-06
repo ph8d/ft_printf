@@ -6,29 +6,26 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/16 16:06:00 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/05 14:10:08 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/06 11:33:02 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-#include <stdio.h>
-#include <locale.h>
-
 void	output_handler(t_specs specs, va_list *arg_list, int *n)
 {
-	if (specs.specifier == 's')
-		*n += handle_str(specs, arg_list);
-	else if (specs.specifier == 'S')
+	if (specs.specifier == 'S' || (specs.specifier == 's' && specs.size_modifier == l))
 		*n += handle_str_wide(specs, arg_list);
+	else if (specs.specifier == 's')
+		*n += handle_str(specs, arg_list);
 	else if (is_specifier(specs.specifier, "dDi") == 1)
 		*n += handle_int(specs, arg_list);
 	else if (is_specifier(specs.specifier, "uUoOxXp") == 1)
 		*n += handle_int_u(specs, arg_list);
+	else if (specs.specifier == 'C' || (specs.specifier == 'c' && specs.size_modifier == l))
+		*n += handle_char_wide(specs, arg_list);
 	else if (specs.specifier == 'c')
 		*n += handle_char(specs, arg_list);
-	else if (specs.specifier == 'C')
-		*n += handle_char_wide(specs, arg_list);
 	else if (specs.specifier == '%')
 		*n += handle_percent(specs);
 }

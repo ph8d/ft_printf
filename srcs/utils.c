@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 11:42:23 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/03 17:57:58 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/05 17:34:30 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ size_t	get_line_length(t_specs *specs, char *str)	//	<--- TODO fix this func!
 {
 	size_t line_len;
 
-	if (specs->precision == 0 && str[0] == '0' && str[1] == '\0')
+	if (specs->precision == 0 && str[0] == '0' && str[1] == '\0' && specs->specifier != 'o' && specs->specifier != 'O')
 		line_len = 0;
 	else
 		line_len = ft_strlen(str);
@@ -93,7 +93,8 @@ size_t	get_line_length(t_specs *specs, char *str)	//	<--- TODO fix this func!
 			specs->precision += 2;
 		}
 	}
-	else if ((specs->specifier == 'o' || specs->specifier == 'O') && specs->alt_conversion == 1)
+	else if ((specs->specifier == 'o' || specs->specifier == 'O')
+			 && specs->alt_conversion == 1 && !(str[0] == '0' && str[1] == '\0'))
 		line_len++;
 	specs->precision -= line_len;
 	if (is_specifier(specs->specifier, "dDi") && (str[0] == '-' || specs->add_space == 1))

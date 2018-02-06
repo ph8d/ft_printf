@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 17:46:54 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/03 17:45:56 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/05 17:20:25 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	handle_precision(t_specs specs)
 
 void	handle_field_width(t_specs specs, size_t *str_len)
 {
+	if ((specs.precision > -1 || specs.left_justify == 1) && !is_specifier(specs.specifier,"cCsS%"))
+		specs.padding_char = ' ';
 	if (specs.min_field_width > 0)
 	{
 		while ((int)*str_len < specs.min_field_width)
@@ -60,7 +62,7 @@ void	handle_prefixes(t_specs *specs, char *str, int line_len)
 	else if (specs->alt_conversion == 1)
 	{
 		if ((specs->specifier == 'o' || specs->specifier == 'O') &&
-				specs->precision < line_len)
+				specs->precision < line_len && !(str[0] == '0' && str[1] == '\0'))
 			write(1, "0", 1);
 	}
 }

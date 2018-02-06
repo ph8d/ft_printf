@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 11:46:01 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/05 14:10:17 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/05 16:20:11 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,13 @@ char	*t_specs_get_specs(t_specs *specs, char *format)
 			specs->precision = cut_digit_from_string(&format);
 		else if (ft_isdigit(*format) == 1)
 			specs->min_field_width = cut_digit_from_string(&format);
+		else if (!is_specifier(*format, "hljz"))
+			return (format - 1);
 		format++;
 	}
-	if (specs->precision != -1 || specs->left_justify == 1)
-		specs->padding_char = ' ';
 	if ((t_specs_get_specifier(format, specs)) == 0 || *format == '\0')
 		return (NULL);
 	specs->size_modifier = t_specs_get_size_modifier(format - 2);
 	return (format);
 }
+
