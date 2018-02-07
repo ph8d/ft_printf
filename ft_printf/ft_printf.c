@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/16 16:06:00 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/06 20:24:41 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/07 17:20:22 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		output_handler(t_specs specs, va_list *arg_list, char current_char)
 {
-	if (specs.specifier == 'S' || (specs.specifier == 's' && 
+	if (specs.specifier == 'S' || (specs.specifier == 's' &&
 		specs.size_modifier == l))
 		return (handle_str_wide(specs, arg_list));
 	else if (specs.specifier == 's')
@@ -23,7 +23,7 @@ int		output_handler(t_specs specs, va_list *arg_list, char current_char)
 		return (handle_int(specs, arg_list));
 	else if (is_specifier(specs.specifier, "uUoOxXp") == 1)
 		return (handle_int_u(specs, arg_list));
-	else if (specs.specifier == 'C' || (specs.specifier == 'c' && 
+	else if (specs.specifier == 'C' || (specs.specifier == 'c' &&
 		specs.size_modifier == l))
 		return (handle_char_wide(specs, arg_list));
 	else if (specs.specifier == 'c')
@@ -55,7 +55,7 @@ int		format_read(char *format, va_list *arg_list)
 		if (*format == '%')
 		{
 			if ((format_parse(&format, arg_list, &chars_printed)) == -1)
-				break;
+				break ;
 		}
 		else
 		{

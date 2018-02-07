@@ -6,13 +6,13 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/06 18:14:46 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/06 18:15:23 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/07 17:21:35 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int 	handle_percent(t_specs specs)
+int		handle_percent(t_specs specs)
 {
 	size_t	str_len;
 
@@ -33,7 +33,8 @@ size_t	handle_str_null(t_specs specs)
 
 	i = 0;
 	str = "(null)";
-	if ((int)(line_len = ft_strlen(str)) > specs.precision && specs.precision >= 0)
+	if ((int)(line_len = ft_strlen(str)) > specs.precision &&
+		specs.precision >= 0)
 		line_len = (size_t)specs.precision;
 	if (specs.left_justify == 0 && specs.min_field_width > 0)
 		handle_field_width(specs, &line_len);
@@ -44,7 +45,7 @@ size_t	handle_str_null(t_specs specs)
 	return (line_len);
 }
 
-int 	handle_undefined_specifier(t_specs specs, char current_char)
+int		handle_undefined_specifier(t_specs specs, char current_char)
 {
 	size_t line_len;
 

@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 11:42:23 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/06 21:25:53 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/07 17:42:39 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ int		is_specifier(char c, char *specifier)
 int		cut_digit_from_string(char **str)
 {
 	int		result;
-	size_t	digit_length;
+	size_t	digit_len;
 	char	*digit;
 
 	result = 0;
-	digit_length = 0;
+	digit_len = 0;
 	if ((*str)[0] == '.')
 	{
 		if (ft_isdigit((*str)[1]))
@@ -38,16 +38,37 @@ int		cut_digit_from_string(char **str)
 		else
 			return (0);
 	}
-	while (ft_isdigit((*str)[digit_length]) && (*str)[digit_length] != '\0')
-		digit_length++;
-	if (digit_length != 0)
+	while (ft_isdigit((*str)[digit_len]) && (*str)[digit_len] != '\0')
+		digit_len++;
+	if (digit_len != 0)
 	{
-		digit = ft_strsub(*str, 0, digit_length);
+		digit = ft_strsub(*str, 0, digit_len);
 		result = ft_atoi(digit);
 		free(digit);
-		(*str) += digit_length - 1;
+		(*str) += digit_len - 1;
 	}
 	return (result);
+}
+
+size_t	get_alt_conversion_len(t_specs *specs, char *str)
+{
+	char specifier;
+
+	specifier = specs->specifier;
+	if (specifier == 'p' || specifier == 'x' || specifier == 'X')
+	{
+		if (specifier == 'p' || !(str[0] == '0' && str[1] == '\0'))
+		{
+			specs->precision += 2;
+			return (2);
+		}
+	}
+	else if (specifier == 'o' || specifier == 'O')
+	{
+		if (!(specs->precision < 0 && str[0] == '0'))
+			return (1);
+	}
+	return (0);
 }
 
 size_t	get_line_length(t_specs *specs, char *str)	//	<--- TODO fix this func!
@@ -55,37 +76,29 @@ size_t	get_line_length(t_specs *specs, char *str)	//	<--- TODO fix this func!
 	size_t line_len;
 
 	if ((specs->precision == 0 && str[0] == '0' && str[1] == '\0') &&
-		is_specifier(specs->specifier ,"oOuUxXdDip"))
+		is_specifier(specs->specifier, "oOuUxXdDip"))
 		line_len = 0;
 	else
 		line_len = ft_strlen(str);
-	if (is_specifier(specs->specifier, "dDi") && str[0] != '-')
+	if (is_specifier(specs->specifier, "dDi"))
 	{
-		if (specs->force_sign == 1 || specs->add_space == 1)
+		if (str[0] != '-' && (specs->force_sign == 1 || specs->add_space == 1))
+		{
 			line_len++;
-		if (specs->force_sign == 1)
+			specs->precision++;
+		}
+		else if (str[0] == '-' || specs->add_space == 1)
 			specs->precision++;
 	}
-	else if (specs->specifier == 'p' || ((specs->specifier == 'x' || specs->specifier == 'X') && specs->alt_conversion == 1))
-	{
-		if (specs->specifier == 'p' || !(str[0] == '0' && str[1] == '\0'))
-		{
-			line_len += 2;
-			specs->precision += 2;
-		}
-	}
-	else if ((specs->specifier == 'o' || specs->specifier == 'O') && specs->alt_conversion == 1)
-		if (!(specs->precision < 0 && str[0] == '0'))
-			line_len++;
+	else if (specs->alt_conversion == 1 || specs->specifier == 'p')
+		line_len += get_alt_conversion_len(specs, str);
 	specs->precision -= line_len;
-	if (is_specifier(specs->specifier, "dDi") && (str[0] == '-' || specs->add_space == 1))
-		specs->precision++;
 	if (specs->precision > 0)
 		line_len += specs->precision;
 	return (line_len);
 }
 
-size_t	get_unicode_str_len(t_specs specs, unsigned int *str)
+size_t	get_unicode_str_len(int precision, unsigned int *str)
 {
 	size_t	len;
 	int		current_char_len;
@@ -94,10 +107,10 @@ size_t	get_unicode_str_len(t_specs specs, unsigned int *str)
 	while (*str != '\0')
 	{
 		current_char_len = ft_count_active_bytes(*str);
-		if (specs.precision >= 0 && (int)(len + current_char_len) > specs.precision)
+		if (precision >= 0 && (int)(len + current_char_len) > precision)
 			break ;
 		else
 			len += ft_count_active_bytes(*(str++));
 	}
 	return (len);
-} 
+}

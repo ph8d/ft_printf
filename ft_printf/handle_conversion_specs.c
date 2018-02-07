@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 17:46:54 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/06 20:18:49 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/07 17:23:21 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	handle_field_width(t_specs specs, size_t *str_len)
 {
 	if (specs.precision > -1 || specs.left_justify == 1)
 	{
-		if (is_specifier(specs.specifier,"pdDioOuUxX"))
+		if (is_specifier(specs.specifier, "pdDioOuUxX"))
 			specs.padding_char = ' ';
 	}
 	if (specs.min_field_width > 0)
@@ -65,8 +65,8 @@ void	handle_prefixes(t_specs *specs, char *str)
 	else if (specs->alt_conversion == 1)
 	{
 		if ((specs->specifier == 'o' || specs->specifier == 'O') &&
-		 !(specs->precision < -1 && str[0] == '0'))
-				write(1, "0", 1);
+			!(specs->precision < -1 && str[0] == '0'))
+			write(1, "0", 1);
 	}
 }
 

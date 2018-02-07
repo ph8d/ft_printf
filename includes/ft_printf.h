@@ -6,18 +6,14 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/16 17:52:34 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/06 21:26:49 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/07 13:44:19 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-<<<<<<< HEAD
 # include "libft.h"
-=======
-# include "../libft/includes/libft.h"
->>>>>>> cef3ea110818bb9ff3f5a88b0a178a259d09824f
 
 # include <unistd.h>
 # include <stdarg.h>
@@ -49,8 +45,9 @@ typedef	struct	s_specs
 
 int				is_specifier(char c, char *specifier);
 int				cut_digit_from_string(char **str);
+size_t			get_alt_conversion_len(t_specs *specs, char *str);
 size_t			get_line_length(t_specs *specs, char *converted_str);
-size_t			get_unicode_str_len(t_specs specs, unsigned int *str);
+size_t			get_unicode_str_len(int precision, unsigned int *str);
 
 size_t			get_base_value(t_specs specs);
 void			print_hex_uppercase(char *str);
