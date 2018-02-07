@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 14:36:48 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/06 17:15:11 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/06 21:14:46 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,23 @@
 int		handle_int_u(t_specs specs, va_list *arg_list)
 {
 	int			i;
-	size_t		base;
 	size_t		integer;
 	size_t		str_len;
 	char		*integer_str;
 
 	i = 0;
-	base = get_base_value(specs);
 	integer = get_unsigned_data_type(arg_list, specs);
-	if ((integer_str = ft_itoa_base(integer, base, 0)) == NULL)
+	if ((integer_str = ft_itoa_base(integer, get_base_value(specs), 0)) == NULL)
 		return (0);
 	str_len = handle_conversion_specs(specs, integer_str);
 	if (integer_str[0] == '-')
 		i++;
-	if (!(specs.precision == 0 && integer == 0 &&
-			   is_specifier(specs.specifier ,"oOuUxXdDip")))
+	if (!(specs.precision == 0 && integer == 0 && is_specifier(specs.specifier ,"oOuUxXdDip")))
 	{
 		if (specs.specifier == 'X')
 			print_hex_uppercase(integer_str);
-		else
-		{
-			while (integer_str[i] != '\0')
-				write(1, &integer_str[i++], 1);
-		}
+		while (integer_str[i] != '\0' && specs.specifier != 'X')
+			write(1, &integer_str[i++], 1);
 	}
 	free(integer_str);
 	if (specs.left_justify == 1)

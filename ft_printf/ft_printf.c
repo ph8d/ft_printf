@@ -6,11 +6,11 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/16 16:06:00 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/06 20:27:39 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/06 20:24:41 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_printf.h"
+#include "ft_printf.h"
 
 int		output_handler(t_specs specs, va_list *arg_list, char current_char)
 {

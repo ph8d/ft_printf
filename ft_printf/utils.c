@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 11:42:23 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/06 20:25:14 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/06 21:25:53 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,7 @@ size_t	get_line_length(t_specs *specs, char *str)	//	<--- TODO fix this func!
 		if (specs->force_sign == 1)
 			specs->precision++;
 	}
-	else if (specs->specifier == 'p' || ((specs->specifier == 'x' ||
-										  specs->specifier == 'X') && specs->alt_conversion == 1))
+	else if (specs->specifier == 'p' || ((specs->specifier == 'x' || specs->specifier == 'X') && specs->alt_conversion == 1))
 	{
 		if (specs->specifier == 'p' || !(str[0] == '0' && str[1] == '\0'))
 		{
