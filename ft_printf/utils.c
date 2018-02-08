@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 11:42:23 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/08 12:38:48 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/08 13:54:55 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,31 +23,33 @@ int		is_specifier(char c, char *specifier)
 	return (0);
 }
 
-int		cut_digit_from_string(char **str)
+void	cut_digit_from_string(t_specs *specs, char **str)
 {
-	int		result;
 	size_t	digit_len;
 	char	*digit;
+	int		*dest;
 
-	result = 0;
 	digit_len = 0;
+	dest = &specs->min_field_width;
 	if ((*str)[0] == '.')
 	{
-		if (ft_isdigit((*str)[1]))
-			(*str)++;
-		else
-			return (0);
+		if (!ft_isdigit((*str)[1]))
+		{
+			specs->precision = 0;
+			return ;
+		}
+		(*str)++;
+		dest = &specs->precision;
 	}
 	while (ft_isdigit((*str)[digit_len]) && (*str)[digit_len] != '\0')
 		digit_len++;
 	if (digit_len != 0)
 	{
 		digit = ft_strsub(*str, 0, digit_len);
-		result = ft_atoi(digit);
+		*dest = ft_atoi(digit);
 		free(digit);
 		(*str) += digit_len - 1;
 	}
-	return (result);
 }
 
 size_t	get_alt_conversion_len(t_specs *specs, char *str)

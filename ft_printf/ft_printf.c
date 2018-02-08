@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/16 16:06:00 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/07 17:20:22 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/08 13:26:37 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int		format_parse(char **format, va_list *arg_list, int *chars_printed)
 {
 	t_specs conversion_specs;
 
-	*format = t_specs_get_specs(&conversion_specs, (*format + 1));
+	*format = t_specs_get_specs(&conversion_specs, (*format + 1), arg_list);
 	if (**format == '\0')
 		return (-1);
 	*chars_printed += output_handler(conversion_specs, arg_list, **format);

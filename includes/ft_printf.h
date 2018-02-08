@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/16 17:52:34 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/07 20:24:51 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/08 13:58:03 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef	struct	s_specs
 }				t_specs;
 
 int				is_specifier(char c, char *specifier);
-int				cut_digit_from_string(char **str);
+void			cut_digit_from_string(t_specs *specs, char **str);
 size_t			get_alt_conversion_len(t_specs *specs, char *str);
 size_t			get_line_length(t_specs *specs, char *converted_str);
 size_t			get_unicode_str_len(int precision, unsigned int *str);
@@ -72,9 +72,10 @@ void			handle_prefixes_hex(t_specs *specs, char *str);
 void			handle_prefixes(t_specs *specs, char *str);
 size_t			handle_conversion_specs(t_specs specs, char *converted_str);
 
-void			t_specs_init(t_specs *specs);
+void			t_specs_handle_star(t_specs *specs, va_list *arg_list, char *format);
 t_size			t_specs_get_size_modifier(char **str);
-char			*t_specs_get_specs(t_specs *specs, char *format);
+void			t_specs_init(t_specs *specs);
+char			*t_specs_get_specs(t_specs *specs, char *format, va_list *arg_list);
 
 int				ft_printf(const char *format, ...);
 
