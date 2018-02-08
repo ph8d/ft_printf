@@ -6,24 +6,11 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 11:46:01 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/06 14:55:31 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/07 20:25:51 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-t_size	t_specs_get_size_modifier(char **str)
-{
-	char size_modifier;
-
-	size_modifier = *(*str);
-	if (*(*(str + 1)) == size_modifier)
-	{
-		(*str)++;
-		size_modifier += size_modifier;
-	}
-	return ((t_size)size_modifier);
-}
 
 void	t_specs_init(t_specs *specs)
 {
@@ -36,6 +23,19 @@ void	t_specs_init(t_specs *specs)
 	specs->min_field_width = -1;
 	specs->precision = -1;
 	specs->size_modifier = none;
+}
+
+t_size	t_specs_get_size_modifier(char **str)
+{
+	char size_modifier;
+
+	size_modifier = *(*str);
+	if (*(*(str + 1)) == size_modifier)
+	{
+		(*str)++;
+		size_modifier += size_modifier;
+	}
+	return ((t_size)size_modifier);
 }
 
 char	*t_specs_get_specs(t_specs *specs, char *format)

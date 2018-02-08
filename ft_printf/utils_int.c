@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/03 15:09:12 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/07 17:17:38 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/08 12:35:08 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ size_t	get_base_value(t_specs specs)
 {
 	if (specs.specifier == 'o' || specs.specifier == 'O')
 		return (8);
-	if (specs.specifier == 'x' || specs.specifier == 'X' ||
-		specs.specifier == 'p')
+	if (is_specifier(specs.specifier, "xXp"))
 		return (16);
 	return (10);
 }
@@ -59,7 +58,7 @@ ssize_t	get_signed_data_type(va_list *arg_list, t_specs specs)
 
 size_t	get_unsigned_data_type(va_list *arg_list, t_specs specs)
 {
-	if (specs.specifier == 'U' || specs.specifier == 'O' || specs.size_modifier == l)
+	if (is_specifier(specs.specifier, "UO") || specs.size_modifier == l)
 		return (va_arg(*arg_list, unsigned long int));
 	else if (specs.size_modifier == h)
 		return ((unsigned short int)va_arg(*arg_list, size_t));

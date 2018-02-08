@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 14:35:47 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/07 17:35:31 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/08 12:30:58 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ int		handle_str(t_specs specs, va_list *arg_list)
 		line_len = handle_str_null(specs);
 	else
 	{
-		if ((int)(line_len = ft_strlen(str)) > specs.precision && specs.precision >= 0)
+		line_len = ft_strlen(str);
+		if ((int)line_len > specs.precision && specs.precision >= 0)
 			line_len = (size_t)specs.precision;
 		if (specs.left_justify == 0 && specs.min_field_width > 0)
 			handle_field_width(specs, &line_len);

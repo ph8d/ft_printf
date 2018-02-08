@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 11:42:23 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/07 17:42:39 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/08 12:38:48 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,11 @@ size_t	get_alt_conversion_len(t_specs *specs, char *str)
 	return (0);
 }
 
-size_t	get_line_length(t_specs *specs, char *str)	//	<--- TODO fix this func!
+size_t	get_line_length(t_specs *specs, char *str)
 {
 	size_t line_len;
 
-	if ((specs->precision == 0 && str[0] == '0' && str[1] == '\0') &&
+	if ((specs->precision == 0 && str[0] == '0') &&
 		is_specifier(specs->specifier, "oOuUxXdDip"))
 		line_len = 0;
 	else

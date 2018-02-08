@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 17:46:54 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/07 17:23:21 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/08 12:41:19 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,16 @@ size_t	handle_conversion_specs(t_specs specs, char *converted_str)
 
 	line_len = get_line_length(&specs, converted_str);
 	if ((specs.specifier == 'x' || specs.specifier == 'X')
-		&& specs.left_justify == 0 && specs.alt_conversion == 1 && specs.padding_char == '0')
+		&& specs.left_justify == 0 && specs.alt_conversion == 1 &&
+		specs.padding_char == '0')
 		handle_prefixes_hex(&specs, converted_str);
 	else if (specs.left_justify == 1 || specs.padding_char == '0')
 		handle_prefixes(&specs, converted_str);
 	if (specs.min_field_width > 0 && specs.left_justify == 0)
 		handle_field_width(specs, &line_len);
 	if ((specs.specifier == 'x' || specs.specifier == 'X')
-		&& (specs.left_justify == 1 || specs.padding_char == ' ') && specs.alt_conversion == 1)
+		&& (specs.left_justify == 1 || specs.padding_char == ' ') &&
+		specs.alt_conversion == 1)
 		handle_prefixes_hex(&specs, converted_str);
 	else if (specs.left_justify == 0 && specs.padding_char != '0')
 		handle_prefixes(&specs, converted_str);
