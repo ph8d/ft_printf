@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/16 16:06:00 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/09 17:06:32 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/09 19:25:54 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		output_handler(t_specs specs, va_list *arg_list, char current_char)
 		return (handle_int(specs, arg_list));
 	else if (specs.specifier == 'f' || specs.specifier == 'F')
 		return (handle_floating_point(specs, arg_list));
-	else if (is_specifier(specs.specifier, "uUoOxXp") == 1)
+	else if (is_specifier(specs.specifier, "uUoOxXpb") == 1)
 		return (handle_int_u(specs, arg_list));
 	else if (specs.specifier == 'C' || (specs.specifier == 'c' &&
 		specs.size_modifier == l))

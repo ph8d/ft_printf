@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 17:46:54 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/09 17:11:14 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/09 19:09:24 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	handle_field_width(t_specs specs, size_t *str_len)
 {
 	if (specs.precision > -1 || specs.left_justify == 1)
 	{
-		if (is_specifier(specs.specifier, "pdDioOuUxX"))
+		if (is_specifier(specs.specifier, "pdDioOuUxXb"))
 			specs.padding_char = ' ';
 	}
 	if (specs.min_field_width > 0)

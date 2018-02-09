@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/03 15:09:12 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/08 12:35:08 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/09 18:58:42 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 size_t	get_base_value(t_specs specs)
 {
-	if (specs.specifier == 'o' || specs.specifier == 'O')
+	if (specs.specifier == 'b')
+		return (2);
+	else if (specs.specifier == 'o' || specs.specifier == 'O')
 		return (8);
-	if (is_specifier(specs.specifier, "xXp"))
+	else if (is_specifier(specs.specifier, "xXp"))
 		return (16);
 	return (10);
 }

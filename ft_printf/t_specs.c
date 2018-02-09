@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 11:46:01 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/09 18:00:01 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/09 18:55:00 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	t_specs_init(t_specs *specs)
 char	*t_specs_get_specs(t_specs *specs, char *str, va_list *args)
 {
 	t_specs_init(specs);
-	while ((!is_specifier(*str, "sSpdDioOuUxXcC%") && *str != '\0'))
+	while ((!is_specifier(*str, "sSpdDifFoOuUxXbcC%") && *str != '\0'))
 	{
 		if (*str == '-')
 			specs->left_justify = 1;
