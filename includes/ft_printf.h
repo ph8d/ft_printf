@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/16 17:52:34 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/08 13:58:03 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/09 18:00:06 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,11 @@ int				handle_percent(t_specs specs);
 size_t			handle_str_null(t_specs specs);
 int				handle_undefined_specifier(t_specs specs, char current_char);
 
+char			*get_fractional_part(double number, int precision);
+char			*get_integer_part(double *number);
+char			*ft_ftoa(double number, int precision);
+int				handle_floating_point(t_specs specs, va_list *arg_list);
+
 int				handle_int(t_specs specs, va_list *arg_list);
 int				handle_int_u(t_specs specs, va_list *arg_list);
 
@@ -72,10 +77,10 @@ void			handle_prefixes_hex(t_specs *specs, char *str);
 void			handle_prefixes(t_specs *specs, char *str);
 size_t			handle_conversion_specs(t_specs specs, char *converted_str);
 
-void			t_specs_handle_star(t_specs *specs, va_list *arg_list, char *format);
+void			t_specs_handle_star(t_specs *specs, va_list *args, char *str);
 t_size			t_specs_get_size_modifier(char **str);
 void			t_specs_init(t_specs *specs);
-char			*t_specs_get_specs(t_specs *specs, char *format, va_list *arg_list);
+char			*t_specs_get_specs(t_specs *specs, char *str, va_list *args);
 
 int				ft_printf(const char *format, ...);
 

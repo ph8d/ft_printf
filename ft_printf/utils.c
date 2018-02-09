@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 11:42:23 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/08 13:54:55 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/09 17:07:58 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ size_t	get_line_length(t_specs *specs, char *str)
 		line_len = 0;
 	else
 		line_len = ft_strlen(str);
-	if (is_specifier(specs->specifier, "dDi"))
+	if (is_specifier(specs->specifier, "dDifF"))
 	{
 		if (str[0] != '-' && (specs->force_sign == 1 || specs->add_space == 1))
 		{

@@ -6,7 +6,7 @@
 #    By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/03 13:39:07 by rtarasen          #+#    #+#              #
-#    Updated: 2018/02/06 20:25:59 by rtarasen         ###   ########.fr        #
+#    Updated: 2018/02/09 17:14:24 by rtarasen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,13 +26,14 @@ ft_strnew.c ft_strnstr.c ft_strrchr.c ft_strsplit.c ft_strstr.c ft_strsub.c \
 ft_strtrim.c ft_tolower.c ft_toupper.c ft_lstnew.c ft_lstdelone.c ft_lstdel.c \
 ft_lstadd.c ft_lstiter.c ft_lstmap.c ft_strarr_new.c ft_strarr_del.c ft_lstlen.c \
 ft_lstfind.c ft_arrtolst.c ft_lstdelcontent.c ft_itoa_base.c get_next_line.c \
-ft_uchar.c ft_count_active_bytes.c
+ft_uchar.c ft_count_active_bytes.c ft_power.c ft_ftoa.c
 LFT_OBJ = $(LFT_SRCS:.c=.o)
 
 #ft_printf
 FT_PRINTF_SRCS = ./ft_printf/ft_printf.c ./ft_printf/handle_conversion_specs.c \
 ./ft_printf/handle_chars.c ./ft_printf/handle_integers.c ./ft_printf/t_specs.c \
-./ft_printf/utils.c ./ft_printf/utils_int.c ./ft_printf/handle_other.c
+./ft_printf/utils.c ./ft_printf/utils_int.c ./ft_printf/handle_other.c \
+./ft_printf/handle_floating_point.c
 FT_PRINTF_OBJ = $(FT_PRINTF_SRCS:.c=.o)
 
 all: $(NAME)

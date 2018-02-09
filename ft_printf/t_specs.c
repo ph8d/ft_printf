@@ -6,18 +6,18 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 11:46:01 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/08 13:48:49 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/09 18:00:01 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	t_specs_handle_star(t_specs *specs, va_list *arg_list, char *format)
+void	t_specs_handle_star(t_specs *specs, va_list *args, char *str)
 {
 	int		value;
 
-	value = va_arg(*arg_list, int);
-	if (*(format - 1) == '.')
+	value = va_arg(*args, int);
+	if (*(str - 1) == '.')
 		specs->precision = value;
 	else
 	{
@@ -56,31 +56,31 @@ void	t_specs_init(t_specs *specs)
 	specs->size_modifier = none;
 }
 
-char	*t_specs_get_specs(t_specs *specs, char *format, va_list *arg_list)
+char	*t_specs_get_specs(t_specs *specs, char *str, va_list *args)
 {
 	t_specs_init(specs);
-	while ((!is_specifier(*format, "sSpdDioOuUxXcC%") && *format != '\0'))
+	while ((!is_specifier(*str, "sSpdDioOuUxXcC%") && *str != '\0'))
 	{
-		if (*format == '-')
+		if (*str == '-')
 			specs->left_justify = 1;
-		else if (*format == '+')
+		else if (*str == '+')
 			specs->force_sign = 1;
-		else if (*format == ' ')
+		else if (*str == ' ')
 			specs->add_space = 1;
-		else if (*format == '#')
+		else if (*str == '#')
 			specs->alt_conversion = 1;
-		else if (*format == '0' && *(format - 1) != '.')
+		else if (*str == '0' && *(str - 1) != '.')
 			specs->padding_char = '0';
-		else if (*format == '.' || ft_isdigit(*format) == 1)
-			cut_digit_from_string(specs, &format);
-		else if (*format == '*')
-			t_specs_handle_star(specs, arg_list, format);
-		else if (is_specifier(*format, "hljz") == 1)
-			specs->size_modifier += t_specs_get_size_modifier(&format);
+		else if (*str == '.' || ft_isdigit(*str) == 1)
+			cut_digit_from_string(specs, &str);
+		else if (*str == '*')
+			t_specs_handle_star(specs, args, str);
+		else if (is_specifier(*str, "hljz") == 1)
+			specs->size_modifier += t_specs_get_size_modifier(&str);
 		else
 			break ;
-		format++;
+		str++;
 	}
-	specs->specifier = *format;
-	return (format);
+	specs->specifier = *str;
+	return (str);
 }

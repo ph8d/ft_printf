@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/28 15:30:44 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/08 12:42:30 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/09 17:14:12 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,7 @@ void			ft_strarr_del(char ***str_arr);
 size_t			ft_lstfind(t_list *lst, void *content);
 t_list			*ft_arrtolst(char **arr, size_t size);
 void			ft_lstdelcontent(void *content, size_t content_size);
+int				ft_power(int number, int power);
+char			*ft_ftoa(double number, int precision);
 
 #endif
