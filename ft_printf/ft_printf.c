@@ -6,7 +6,7 @@
 /*   By: rtarasen <rtarasen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/16 16:06:00 by rtarasen          #+#    #+#             */
-/*   Updated: 2018/02/09 19:25:54 by rtarasen         ###   ########.fr       */
+/*   Updated: 2018/02/10 12:39:16 by rtarasen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int		format_read(char *format, va_list *arg_list)
 	int	chars_printed;
 
 	chars_printed = 0;
+	if (format == NULL)
+		return (0);
 	while (*format != '\0')
 	{
 		if (*format == '%')
